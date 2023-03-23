@@ -6,7 +6,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import { set } from "mongoose";
+import ImageUpload from "./ImageUpload";
 
 const style = {
   position: "absolute",
@@ -23,129 +23,135 @@ const style = {
 function App() {
   // const [open, setOpen] = React.useState(false);
 
-  const handleClose = () => setOpen(false);
-
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
-  const [openSignIn, setOpensignIn] = useState(false);
+  const [openSignIn, setOpenSignIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged((authUser)=>{
-      if(authUser){
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
         //user has logged in....
         console.log(authUser);
         setUser(authUser);
-      }else{
+      } else {
         //user has logged out.....
         setUser(null);
       }
     })
-    return ()=>{
+    return () => {
       //perform some cleanup actions
       unsubscribe();
     }
-  },[user, username]);
+  }, [user, username]);
 
   //useEffect -> runs a peice of code based on a specific condition
   useEffect(() => {
     //this is where the code runs
-    db.collection("posts").onSnapshot((snapshot) => {
+    db.collection("posts").orderBy('timestamp', 'desc').onSnapshot(snapshot=> {
       //every time a new post is added this code will fire..
       setPosts(
-        snapshot.docs.map((doc) => ({
+        snapshot.docs.map(doc => ({
           id: doc.id,
-          post: doc.data(),
-        }))
-      );
+          post: doc.data()
+        })));
     });
   }, []);
 
   //Authentication
   const signUp = (event) => {
     event.preventDefault();
-    auth.createUserWithEmailAndPassword(email, password)
-    .then((authUser)=>{
-      return authUser.user.updateProfile({
-      displayName: username
-    });
-  })
-    .catch((error)=>alert (error.message))
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username
+        })
+      })
+      .catch((error) => alert(error.message));
     setOpen(false);
   };
 
-  const signIn =(event)=>{
+  const signIn = (event) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password)
-    .catch((error)=>alert (error.message))
-    setOpensignIn(false);
-  }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message))
+    setOpenSignIn(false);
+  };
   return (
     <div className="App">
+      
       <Modal
         open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        onClose={()=> setOpen(false)}
       >
         <Box sx={style}>
-        <form className="app__signup">
-          <center>
-            <img
-              className="app__headerImage"
-              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-              alt=""
-            />
+          <form className="app__signup">
+            <center>
+              <img
+                className="app__headerImage"
+                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+                alt=""
+              />
             </center>
-              <input
-                placeholder="Email"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button tyepe="submit" onClick={signUp}>Sign Up</Button>
-            </form>
+            <input
+              placeholder="Username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              placeholder="Email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button tyepe="submit" onClick={signUp}>
+              Sign Up
+            </Button>
+          </form>
         </Box>
       </Modal>
 
       <Modal
         open={openSignIn}
-        onClose={()=>setOpensignIn(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        onClose={() => setOpenSignIn(false)}
       >
         <Box sx={style}>
-        <form className="app__signup">
-          <center>
-            <img
-              className="app__headerImage"
-              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-              alt=""
-            />
+          <form className="app__signup">
+            <center>
+              <img
+                className="app__headerImage"
+                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+                alt=""
+              />
             </center>
-              <input
-                placeholder="Email"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button tyepe="submit" onClick={signIn}>Sign In</Button>
-            </form>
+            <input
+              placeholder="Email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button tyepe="submit" onClick={signIn}>
+              Sign In
+            </Button>
+          </form>
         </Box>
       </Modal>
 
@@ -155,37 +161,34 @@ function App() {
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
           alt=""
         />
-      </div>
-
-      {user ? (
-      <Button onClick={()=> auth.signOut()}>Log Out</Button>
-      ):(
+        {user ? (
+        <Button onClick={() => auth.signOut()}>Log Out</Button>
+      ) : (
         <div className="app__loginContainer">
-          <Button onClick={()=> setOpen(true)}>Sign In</Button>
-          <Button onClick={()=> setOpen(true)}>Sign Up</Button>
+          <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+          <Button onClick={() => setOpen(true)}>Sign Up</Button>
         </div>
       )}
+      </div>
+
+      
       <h1>Hello Guys!! Let's make a Instagram clone</h1>
 
-      {posts.map(({ post, id }) => (
+      {posts.map(({id, post }) => (
         <Post
           key={id}
           username={post.username}
           caption={post.caption}
           imageUrl={post.imageUrl}
         />
-      ))}
+      ))
+      }
+      {user?.displayName ?(
+        <ImageUpload username ={user.displayName}/>
+      ):(
+        <h3>Sorry You need to Login to upload</h3>
+      )}
 
-      <Post
-        username="pummy2k02"
-        caption="Comfortable Zone"
-        imageUrl="https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"
-      />
-      <Post
-        username="priyanshu10"
-        caption="Happy Holi"
-        imageUrl="https://images.indianexpress.com/2020/03/feature-5.jpg"
-      />
     </div>
   );
 }
