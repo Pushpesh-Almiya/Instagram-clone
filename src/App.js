@@ -159,16 +159,16 @@ function App() {
           alt=""
         />
         {user ? (
-          <Button onClick={() => auth.signOut()}>Log Out</Button>
+          <Button className="text-light" onClick={() => auth.signOut()}>Log Out</Button>
         ) : (
           <div className="app__loginContainer">
-            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+            <Button className="text-light" onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button className="text-light" onClick={() => setOpen(true)}>Sign Up</Button>
           </div>
         )}
       </div>
 
-      <h2 className="headline"><em>Welcome to Instagram-clone app.. Pleasee upload your photos</em></h2>
+      <h3 className="headline"><em>Welcome to Instagram-clone app</em></h3>
       <div className="app__posts">
       
         <div className="app__postsLeft">
@@ -211,7 +211,7 @@ function App() {
         </center>
       )}
 <footer className="footer">
-<a href="https://instagram.com/pummy2k02?igshid=ZDdkNTZiNTM=" target={"_blank"}><strong>Pushpesh Almiya</strong><i className="fa-brands fa-instagram" style={{color:"#ff00f7"}}></i></a>
+<a href="https://instagram.com/pummy2k02?igshid=ZDdkNTZiNTM="className="text-light" target={"_blank"}><strong>Pushpesh Almiya</strong><i className="fa-brands fa-instagram"></i></a>
 </footer>
     </div>
   );

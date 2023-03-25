@@ -1,14 +1,14 @@
 .post{
-    background-color: white;
-    max-width: 500px;
-    border: 1px solid lightgray;
+    max-width: 600px;
+    border: 1px solid rgb(0, 0, 0);
     margin-bottom: 45px;
+    background: transparent;
 }
 .post__image{
     width: 100%;
     object-fit: contain;
-    border-bottom: 1px solid lightgray;
-    border-top: 1px solid lightgray
+    border-bottom: 1px solid rgb(0, 0, 0);
+    border-top: 1px solid rgb(0, 0, 0)
 }
 .post__text{
     font-weight: normal;
@@ -30,7 +30,12 @@
     padding: 20px;
 }
 .comment{
-    margin: 10px;
+    align-items: center;
+    display: flex;
+}
+.comment>strong{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 .headline{
     text-align: center;
@@ -43,6 +48,7 @@ i{
 }
 .like__avatar{
     margin-right: 5px;
+    margin-left: 5px;
     text-align: center;
 }
 .likeCount{
@@ -52,4 +58,7 @@ i{
 }
 button{
     cursor: pointer;
+}
+.Likes{
+    padding-top:10px ;
 }

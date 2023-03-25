@@ -46,19 +46,19 @@ setIslike(!islike);
     <div className="post">
       <div className="post__header">
         <Avatar
-          className="post__avatar"
-          alt="Pummk2K02"
+          className="post__avatar "
+          alt={username}
           src="/static/images/avatar/1.jpg"
           // src="https://wallpaperaccess.com/full/1102078.jpg"
         />
-        <h3>{username}</h3>
+        <h5 className="text-light">{username}</h5>
       </div>
       {/* header => Avatar+ Username  */}
 
       {/* image  */}
       <img className="post__image" src={imageUrl} alt="" />
-      <div className="icons">
-          <span className={""+ (islike ? "text-danger":"")}>
+      <div className="icons text-light">
+          <span className={""+ (islike ? "text-warning":"")}>
             <i className="fa-solid fa-heart"  onClick={likeButton}></i>
           </span>
       <i className="fa-regular fa-comment"></i>
@@ -66,25 +66,26 @@ setIslike(!islike);
       <i className="fa-regular fa-bookmark bookmark"></i>
 
       </div>
-      <div className="likeCount">
+      <div className="likeCount text-white">
       <Avatar
           className="like__avatar"
           alt="Pummk2K02"
           src="https://wallpaperaccess.com/full/1102078.jpg"
         />
-      <p>liked by pummy2k02 and{like} others</p>
+      <p className="Likes">liked by <strong>pummy2k02</strong>  and <strong>{like} others</strong></p>
       </div>
       
       {/* username +  caption  */}
-      <h4 className="post__text">
+      <h6 className="post__text text-light">
         <strong>{username}</strong> {caption}
-      </h4>
+      </h6>
       
 
-      <div className="post__comments">
+      <div className="post__comments text-light">
         {comments.map((comment) => (
           <p className="comment">
-            <strong> {comment.username} </strong>
+            <Avatar alt={comment.username}src="/static/images/avatar/1.jpg"
+        /><strong> {comment.username} </strong>
             {comment.text}
           </p>
         ))}

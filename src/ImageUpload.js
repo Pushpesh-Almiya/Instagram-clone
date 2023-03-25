@@ -44,8 +44,7 @@ const ImageUpload = ({ username }) => {
               caption: caption,
               username: username,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            });
-
+            })
             setProgress(0);
             setCaption("");
             setImage(null);
@@ -57,7 +56,8 @@ const ImageUpload = ({ username }) => {
   return (
     <div className="imageUpload">
 <progress className="imageUpload__progress" value={progress} max="100" />
-<input type="file" onChange={handleChange} />
+<button className="Upload_btn" ><i className="fa-solid fa-upload"onChange={handleChange}></i>
+<input className="imageUpload__file" onChange={handleChange} type="file"/></button>
       <textarea 
         placeholder="Enter a caption"
         value={caption}
