@@ -32,3 +32,24 @@
 .comment{
     margin: 10px;
 }
+.headline{
+    text-align: center;
+    margin: 5px;
+}
+i{
+    margin: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.like__avatar{
+    margin-right: 5px;
+    text-align: center;
+}
+.likeCount{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+button{
+    cursor: pointer;
+}

@@ -35,6 +35,13 @@ function Post({ postId, user, username, caption, imageUrl }) {
     });
     setComment("");
   };
+
+  const[like, setLike]=useState(187),
+   [islike, setIslike]=useState(false)
+  const likeButton=()=>{
+setLike(like+(islike?-1:+1));
+setIslike(!islike);
+  }
   return (
     <div className="post">
       <div className="post__header">
@@ -50,10 +57,29 @@ function Post({ postId, user, username, caption, imageUrl }) {
 
       {/* image  */}
       <img className="post__image" src={imageUrl} alt="" />
+      <div className="icons">
+          <span className={""+ (islike ? "text-danger":"")}>
+            <i className="fa-solid fa-heart"  onClick={likeButton}></i>
+          </span>
+      <i className="fa-regular fa-comment"></i>
+      <i className="fa-solid fa-paper-plane"></i>
+      <i className="fa-regular fa-bookmark bookmark"></i>
+
+      </div>
+      <div className="likeCount">
+      <Avatar
+          className="like__avatar"
+          alt="Pummk2K02"
+          src="https://wallpaperaccess.com/full/1102078.jpg"
+        />
+      <p>liked by pummy2k02 and{like} others</p>
+      </div>
+      
       {/* username +  caption  */}
       <h4 className="post__text">
         <strong>{username}</strong> {caption}
       </h4>
+      
 
       <div className="post__comments">
         {comments.map((comment) => (

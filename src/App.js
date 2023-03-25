@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import ImageUpload from "./ImageUpload";
-import InstagramEmbed from "react-instagram-embed";
+// import InstagramEmbed from "react-instagram-embed";
 
 const style = {
   position: "absolute",
@@ -168,7 +168,9 @@ function App() {
         )}
       </div>
 
+      <h2 className="headline"><em>Welcome to Instagram-clone app.. Pleasee upload your photos</em></h2>
       <div className="app__posts">
+      
         <div className="app__postsLeft">
           {
           posts.map(({ id, post }) => (
@@ -184,29 +186,33 @@ function App() {
           }
         </div>
         <div className="app__postsRight">
-        <InstagramEmbed
-          url="https://instagram.com/pummy2k02?igshid=ZDdkNTZiNTM=/"
-          // clientAccessToken='123|456'
-          // https://www.instagram.com/p/B_uf9dmAGPw/
-          maxWidth={320}
-          hideCaption={false}
-          containerTagName="div"
-          protocol=""
-          injectScript
-          onLoading={() => {}}
-          onSuccess={() => {}}
-          onAfterRender={() => {}}
-          onFailure={() => {}}
-        />
+        {/* <InstagramEmbed
+            url="https://www.instagram.com/p/B_uf9dmAGPw/"
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName="div"
+            protocol=""
+            injectScript
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
+          /> */}
         </div>
-        
       </div>
 
       {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
+        <div className="app__upload">
+          <ImageUpload username={user.displayName} />
+        </div>
       ) : (
-        <h3>Sorry You need to Login to upload</h3>
+        <center>
+          <h3>Please Login to upload posts</h3>
+        </center>
       )}
+<footer className="footer">
+<a href="https://instagram.com/pummy2k02?igshid=ZDdkNTZiNTM=" target={"_blank"}><strong>Pushpesh Almiya</strong><i className="fa-brands fa-instagram" style={{color:"#ff00f7"}}></i></a>
+</footer>
     </div>
   );
 }
