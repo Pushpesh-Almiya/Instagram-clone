@@ -22,3 +22,13 @@
 .post__avatar{
     margin-right: 10px;
 }
+.post__commentBox{
+    display: flex;
+    margin-top: 10px;
+}
+.post__comments{
+    padding: 20px;
+}
+.comment{
+    margin: 10px;
+}

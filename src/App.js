@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import ImageUpload from "./ImageUpload";
+import InstagramEmbed from "react-instagram-embed";
 
 const style = {
   position: "absolute",
@@ -41,24 +42,27 @@ function App() {
         //user has logged out.....
         setUser(null);
       }
-    })
+    });
     return () => {
       //perform some cleanup actions
       unsubscribe();
-    }
+    };
   }, [user, username]);
 
   //useEffect -> runs a peice of code based on a specific condition
   useEffect(() => {
     //this is where the code runs
-    db.collection("posts").orderBy('timestamp', 'desc').onSnapshot(snapshot=> {
-      //every time a new post is added this code will fire..
-      setPosts(
-        snapshot.docs.map(doc => ({
-          id: doc.id,
-          post: doc.data()
-        })));
-    });
+    db.collection("posts")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        //every time a new post is added this code will fire..
+        setPosts(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            post: doc.data(),
+          }))
+        );
+      });
   }, []);
 
   //Authentication
@@ -68,8 +72,8 @@ function App() {
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         return authUser.user.updateProfile({
-          displayName: username
-        })
+          displayName: username,
+        });
       })
       .catch((error) => alert(error.message));
     setOpen(false);
@@ -78,17 +82,13 @@ function App() {
   const signIn = (event) => {
     event.preventDefault();
     auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => alert(error.message))
+    .signInWithEmailAndPassword(email, password)
+    .catch((error) => alert(error.message));
     setOpenSignIn(false);
   };
   return (
     <div className="App">
-      
-      <Modal
-        open={open}
-        onClose={()=> setOpen(false)}
-      >
+      <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={style}>
           <form className="app__signup">
             <center>
@@ -123,10 +123,7 @@ function App() {
         </Box>
       </Modal>
 
-      <Modal
-        open={openSignIn}
-        onClose={() => setOpenSignIn(false)}
-      >
+      <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
         <Box sx={style}>
           <form className="app__signup">
             <center>
@@ -162,33 +159,54 @@ function App() {
           alt=""
         />
         {user ? (
-        <Button onClick={() => auth.signOut()}>Log Out</Button>
-      ) : (
-        <div className="app__loginContainer">
-          <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-          <Button onClick={() => setOpen(true)}>Sign Up</Button>
-        </div>
-      )}
+          <Button onClick={() => auth.signOut()}>Log Out</Button>
+        ) : (
+          <div className="app__loginContainer">
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+          </div>
+        )}
       </div>
 
-      
-      <h1>Hello Guys!! Let's make a Instagram clone</h1>
-
-      {posts.map(({id, post }) => (
-        <Post
-          key={id}
-          username={post.username}
-          caption={post.caption}
-          imageUrl={post.imageUrl}
+      <div className="app__posts">
+        <div className="app__postsLeft">
+          {
+          posts.map(({ id, post }) => (
+            <Post
+              key={id}
+              postId ={id}
+              user={user}
+              username={post.username}
+              caption={post.caption}
+              imageUrl={post.imageUrl}
+            />
+          ))
+          }
+        </div>
+        <div className="app__postsRight">
+        <InstagramEmbed
+          url="https://instagram.com/pummy2k02?igshid=ZDdkNTZiNTM=/"
+          // clientAccessToken='123|456'
+          // https://www.instagram.com/p/B_uf9dmAGPw/
+          maxWidth={320}
+          hideCaption={false}
+          containerTagName="div"
+          protocol=""
+          injectScript
+          onLoading={() => {}}
+          onSuccess={() => {}}
+          onAfterRender={() => {}}
+          onFailure={() => {}}
         />
-      ))
-      }
-      {user?.displayName ?(
-        <ImageUpload username ={user.displayName}/>
-      ):(
+        </div>
+        
+      </div>
+
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName} />
+      ) : (
         <h3>Sorry You need to Login to upload</h3>
       )}
-
     </div>
   );
 }
